@@ -1,5 +1,4 @@
 import argparse
-
 from pydub import AudioSegment
 import pydub.scipy_effects
 import numpy as np
@@ -9,8 +8,6 @@ import matplotlib.pyplot as plt
 from utils import (
     frequency_spectrum,
     calculate_distance,
-    classify_note_attempt_1,
-    classify_note_attempt_2,
     classify_note_attempt_3,
 )
 
@@ -36,13 +33,16 @@ def main(file, note_file=None, note_starts_file=None, plot_starts=False, plot_ff
 
     predicted_notes = predict_notes(
         song, starts, actual_notes, plot_fft_indices)
+    
+    
 
-    print("")
+    print()
     if actual_notes:
         print("Actual Notes")
         print(actual_notes)
     print("Predicted Notes")
     print(predicted_notes)
+    # print(starts)
 
     if actual_notes:
         lev_distance = calculate_distance(predicted_notes, actual_notes)
@@ -106,8 +106,9 @@ def predict_note_starts(song, plot, actual_starts):
 
 
 def predict_notes(song, starts, actual_notes, plot_fft_indices):
-    predicted_notes = []
+    notes_with_times = []
     for i, start in enumerate(starts):
+        temp = ()
         sample_from = start + 50
         sample_to = start + 550
         if i < len(starts) - 1:
@@ -116,7 +117,12 @@ def predict_notes(song, starts, actual_notes, plot_fft_indices):
         freqs, freq_magnitudes = frequency_spectrum(segment)
 
         predicted = classify_note_attempt_3(freqs, freq_magnitudes)
-        predicted_notes.append(predicted or "U")
+
+        # convert ms to seconds
+        start_in_seconds = start / 1000
+
+        temp = temp + (start_in_seconds, predicted or "U")
+        notes_with_times.append(temp)
 
         # Print general info
         print("")
@@ -146,7 +152,7 @@ def predict_notes(song, starts, actual_notes, plot_fft_indices):
             plt.xlabel("Freq (Hz)")
             plt.ylabel("|X(freq)|")
             plt.show()
-    return predicted_notes
+    return notes_with_times
 
 
 if __name__ == "__main__":
@@ -164,6 +170,6 @@ if __name__ == "__main__":
     # args = parser.parse_args()
 
     main(
-        "redemption_song.m4a",
-        note_file="note_file.txt", note_starts_file="note_starts_file.txt", plot_starts=False, plot_fft_indices=[]
+        "acc.mp3",
+        note_file="", note_starts_file="", plot_starts=False, plot_fft_indices=[]
     )
