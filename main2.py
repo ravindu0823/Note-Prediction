@@ -1,3 +1,3 @@
 import autochord as chord
 
-chord.recognize("audio1.mp3", "audio1.lab")
+print(chord.recognize("audio/audio1.mp3"))

@@ -170,6 +170,6 @@ if __name__ == "__main__":
     # args = parser.parse_args()
 
     main(
-        "acc.mp3",
+        "audio/acc.mp3",
         note_file="", note_starts_file="", plot_starts=False, plot_fft_indices=[]
     )
