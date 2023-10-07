@@ -21,6 +21,34 @@ from Levenshtein import distance
     "G#": 830.6093951598903,
 } """
 
+CHORD_DATA = {
+    "C:maj" : ["C", "E", "G"],
+    "C:min" : ["C", "D#", "G"],
+    "Db:maj" : ["C#", "F", "G#"],
+    "Db:min" : ["C#", "E", "G#"],
+    "D:maj" : ["D", "F#", "A"],
+    "D:min" : ["D", "F", "A"],
+    "Eb:maj" : ["D#", "G", "A#"],
+    "Eb:min" : ["D#", "F#", "A#"],
+    "E:maj" : ["E", "G#", "B"],
+    "E:min" : ["E", "G", "B"],
+    "F:maj" : ["F", "A", "C"],
+    "F:min" : ["F", "G#", "C"],
+    "Gb:maj" : ["F#", "A#", "C#"],
+    "Gb:min" : ["F#", "A", "C#"],
+    "G:maj" : ["G", "B", "D"],
+    "G:min" : ["G", "A#", "D"],
+    "Ab:maj" : ["G#", "C", "D#"],
+    "Ab:min" : ["G#", "B", "D#"],
+    "A:maj" : ["A", "C#", "E"],
+    "A:min" : ["A", "C", "E"],
+    "Bb:maj" : ["A#", "D", "F"],
+    "Bb:min" : ["A#", "C#", "F"],
+    "B:maj" : ["B", "D#", "F#"],
+    "B:min" : ["B", "D", "F#"],
+    "N" : ["C", "C", "C"],
+}
+
 NOTES = {
     "C4": 261.6255653005986,
     "C#4": 277.18263097687196,
