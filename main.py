@@ -1,42 +1,45 @@
-from music21 import stream, chord, note
-from music21.stream.base import Score
-from music21.stream.base import Measure
+from music21 import *
+from utils import (
+    CHORD_DATA
+)
 
-score = Score()
+environment.set(
+    "musicxmlPath", "/home/dhanu/.local/bin/MuseScore-4.1.1.232071203-x86_64.AppImage")
+environment.set("musescoreDirectPNGPath",
+                "/home/dhanu/.local/bin/MuseScore-4.1.1.232071203-x86_64.AppImage")
 
-chord_data = [
-    (4.040272108843538, 5.944308390022676, "D"),
-    (5.944308390022676, 8.17342403628118, "B"),
-    (8.17342403628118, 10.263219954648527, "E"),
-    (10.263219954648527, 12.538775510204083, "Gb")
-    # (12.538775510204083, 14.303492063492063, "D:maj")
-    # (14.303492063492063, 16.532607709750568, "B:min")
-]
+# Lead lab file
+file_path = 'final.lab'
 
-# dMaj = chord.Chord(['D', 'f', 'a'])
-# print(dMaj)
+# Initialize an empty list to store the data
+data = []
 
-# Print the chord of chord data
-for start_time, end_time, chord_symbol in chord_data:
-    # Create a chord or note object depending on the chord symbol
-    if ":" in chord_symbol:
-        chord_parts = chord_symbol.split(":")
-        new_chord = chord.Chord(chord_parts)
-    else:
-        new_chord = note.Note(chord_symbol)
+# Open the file and read it line by line
+with open(file_path, 'r') as file:
+    for line in file:
+        # Split the line by tab to separate the columns
+        columns = line.strip().split('\t')
 
-    # Set the duration of the chord or note
-    # new_chord.duration.quarterLength = end_time - start_time
+        # Convert start and end times to float and store them as a tuple with the label
+        if len(columns) == 3:
+            start_time = float(columns[0])
+            end_time = float(columns[1])
+            label = columns[2]
+            data.append((start_time, end_time, label))
 
-    # Add the chord or note to a new measure in the score
-    new_measure = Measure()
+
+
+s = stream.Score()
+s.append(meter.TimeSignature('4/4'))
+
+for start_time, end_time, label in data:
+    time = (end_time - start_time).__round__(2)
+    # print(chord.Chord(CHORD_DATA[label], duration=duration.Duration(time)))
+    new_chord = chord.Chord(CHORD_DATA[label], duration=duration.Duration(time))
+
+    new_measure = stream.Measure()
     new_measure.append(new_chord)
-    score.append(new_measure)
+    s.append(new_measure)
 
-notation_file_path = "your_notation_file.xml"
-score.write("xml", notation_file_path)
-
-if not score.isWellFormedNotation():
-    print("The MusicXML file is not well-formed.")
-else:
-    print("The MusicXML file is well-formed.")
+s.show()
+# s.write('musicxml.png', "images/musicxml.png")
