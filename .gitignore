@@ -1,1 +1,4 @@
 music
+audio/spleeter/*
+pretrained_models
+musicenv
