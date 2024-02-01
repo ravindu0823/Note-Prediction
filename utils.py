@@ -1,6 +1,5 @@
 import array
 from collections import Counter
-
 import numpy as np
 import scipy
 from pydub.utils import get_array_type
@@ -20,34 +19,6 @@ from Levenshtein import distance
     "G": 783.9908719634985,
     "G#": 830.6093951598903,
 } """
-
-CHORD_DATA = {
-    "C:maj" : ["C", "E", "G"],
-    "C:min" : ["C", "D#", "G"],
-    "Db:maj" : ["C#", "F", "G#"],
-    "Db:min" : ["C#", "E", "G#"],
-    "D:maj" : ["D", "F#", "A"],
-    "D:min" : ["D", "F", "A"],
-    "Eb:maj" : ["D#", "G", "A#"],
-    "Eb:min" : ["D#", "F#", "A#"],
-    "E:maj" : ["E", "G#", "B"],
-    "E:min" : ["E", "G", "B"],
-    "F:maj" : ["F", "A", "C"],
-    "F:min" : ["F", "G#", "C"],
-    "Gb:maj" : ["F#", "A#", "C#"],
-    "Gb:min" : ["F#", "A", "C#"],
-    "G:maj" : ["G", "B", "D"],
-    "G:min" : ["G", "A#", "D"],
-    "Ab:maj" : ["G#", "C", "D#"],
-    "Ab:min" : ["G#", "B", "D#"],
-    "A:maj" : ["A", "C#", "E"],
-    "A:min" : ["A", "C", "E"],
-    "Bb:maj" : ["A#", "D", "F"],
-    "Bb:min" : ["A#", "C#", "F"],
-    "B:maj" : ["B", "D#", "F#"],
-    "B:min" : ["B", "D", "F#"],
-    "N" : ["C", "C", "C"],
-}
 
 NOTES = {
     "C4": 261.6255653005986,
@@ -79,20 +50,11 @@ NOTES = {
 
 
 def frequency_spectrum(sample, max_frequency=800):
-    """
-    Derive frequency spectrum of a signal pydub.AudioSample
-    Returns an array of frequencies and an array of how prevelant that frequency is in the sample
-    """
-    # Convert pydub.AudioSample to raw audio data
-    # Copied from Jiaaro's answer on https://stackoverflow.com/questions/32373996/pydub-raw-audio-data
     bit_depth = sample.sample_width * 8
     array_type = get_array_type(bit_depth)
     raw_audio_data = array.array(array_type, sample._data)
     n = len(raw_audio_data)
 
-    # Compute FFT and frequency value for each index in FFT array
-    # Inspired by Reveille's answer on https://stackoverflow.com/questions/53308674/audio-frequencies-in-python
-    # two sides frequency range
     freq_array = np.arange(n) * (float(sample.frame_rate) / n)
     freq_array = freq_array[: (n // 2)]  # one side frequency range
 
@@ -109,25 +71,6 @@ def frequency_spectrum(sample, max_frequency=800):
     freq_magnitude = abs(freq_magnitude)
     freq_magnitude = freq_magnitude / np.sum(freq_magnitude)
     return freq_array, freq_magnitude
-
-
-def classify_note_attempt_1(freq_array, freq_magnitude):
-    i = np.argmax(freq_magnitude)
-    f = freq_array[i]
-    print("frequency {}".format(f))
-    print("magnitude {}".format(freq_magnitude[i]))
-    return get_note_for_freq(f)
-
-
-def classify_note_attempt_2(freq_array, freq_magnitude):
-    note_counter = Counter()
-    for i in range(len(freq_magnitude)):
-        if freq_magnitude[i] < 0.01:
-            continue
-        note = get_note_for_freq(freq_array[i])
-        if note:
-            note_counter[note] += freq_magnitude[i]
-    return note_counter.most_common(1)[0][0]
 
 
 def classify_note_attempt_3(freq_array, freq_magnitude):
@@ -154,9 +97,6 @@ def classify_note_attempt_3(freq_array, freq_magnitude):
     return note_counter.most_common(1)[0][0]
 
 
-# If f is within tolerance of a note (measured in cents - 1/100th of a semitone)
-# return that note, otherwise returns None
-# We scale to the 440 octave to check
 def get_note_for_freq(f, tolerance=33):
     # Calculate the range for each note
     tolerance_multiplier = 2 ** (tolerance / 1200)
@@ -181,11 +121,7 @@ def get_note_for_freq(f, tolerance=33):
     return None
 
 
-# Assumes everything is either natural or sharp, no flats
-# Returns the Levenshtein distance between the actual notes and the predicted notes
 def calculate_distance(predicted, actual):
-    # To make a simple string for distance calculations we make natural notes lower case
-    # and sharp notes cap
     def transform(note):
         if "#" in note:
             return note[0].upper()
