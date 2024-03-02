@@ -2,3 +2,4 @@ music
 audio/spleeter/*
 pretrained_models
 musicenv
+__pycache__
