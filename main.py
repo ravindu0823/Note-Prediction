@@ -5,4 +5,4 @@ import autochord as chord
 # separator.separate_to_file('audio/final.wav', 'audio/spleeter/')
 
 # print()
-print(chord.recognize("audio/A-Thousand-Years-Christina-Perri.mp3", lab_fn="lab-files/A-Thousand-Years-Christina-Perri-chords.lab"))
+print(chord.recognize("audio/Christina-Perri-A-Thousand-Years-Official-Music-Video.mp3", lab_fn="lab-files/Christina-Perri-A-Thousand-Years-Official-Music-Video-chords.lab"))
