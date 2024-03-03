@@ -5,7 +5,9 @@ FROM python:3.11.7
 WORKDIR /python-docker
 
 COPY requirements.txt requirements.txt
-RUN cat requirements.txt | xargs -n 1 -L 1 pip install
+RUN cat requirements.txt | xargs -n 1 -L 1 pip install --no-cache-dir
+RUN apt update
+RUN apt install ffmpeg
 
 COPY . .
 
