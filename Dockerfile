@@ -5,8 +5,10 @@ FROM python:3.11.7
 WORKDIR /python-docker
 
 COPY requirements.txt requirements.txt
-RUN pip install -r requirements.txt
+RUN cat requirements.txt | xargs -n 1 -L 1 pip install
 
 COPY . .
+
+EXPOSE 5000:5000
 
 CMD [ "python", "-m" , "flask", "run", "--host=0.0.0.0"]
