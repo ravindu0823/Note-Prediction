@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from note_recognition_simplified import main
 import autochord as chord
+from scrape import getNews
 
 app = Flask(__name__)
 
@@ -89,6 +90,14 @@ def analyzeBoth():
 
     # Return the data as JSON
     return jsonify(chords=chordData, notes=notesData)
+
+@app.route("/getScrapeNews", methods=["GET"])
+def getScrapeNews():
+    # Call the getNews function from your code
+    news = getNews()
+
+    # Return the data as JSON
+    return jsonify(news)
 
 
 if __name__ == '__main__':
