@@ -89,7 +89,7 @@ def analyzeBoth():
 
 
     # Return the data as JSON
-    return jsonify(chords=chordData, notes=notesData)
+    return jsonify(chords=chordData, notes=notesData), 200
 
 @app.route("/getScrapeNews", methods=["GET"])
 def getScrapeNews():
