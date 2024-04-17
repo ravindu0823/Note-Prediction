@@ -5,21 +5,6 @@ import scipy
 from pydub.utils import get_array_type
 from Levenshtein import distance
 
-""" NOTES = {
-    "A": 440,
-    "A#": 466.1637615180899,
-    "B": 493.8833012561241,
-    "C": 523.2511306011972,
-    "C#": 554.3652619537442,
-    "D": 587.3295358348151,
-    "D#": 622.2539674441618,
-    "E": 659.2551138257398,
-    "F": 698.4564628660078,
-    "F#": 739.9888454232688,
-    "G": 783.9908719634985,
-    "G#": 830.6093951598903,
-} """
-
 NOTES = {
     "C4": 261.6255653005986,
     "C#4": 277.18263097687196,
@@ -54,6 +39,8 @@ def frequency_spectrum(sample, max_frequency=800):
     array_type = get_array_type(bit_depth)
     raw_audio_data = array.array(array_type, sample._data)
     n = len(raw_audio_data)
+    if n == 0:
+        raise ValueError("The audio data is empty. Cannot compute frequency spectrum.")
 
     freq_array = np.arange(n) * (float(sample.frame_rate) / n)
     freq_array = freq_array[: (n // 2)]  # one side frequency range
