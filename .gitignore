@@ -2,4 +2,9 @@ music
 audio/spleeter/*
 pretrained_models
 musicenv
-__pycache__/*
+__pycache__
+uploads/*
+audio/*
+labuploads/*
+.vscode
+xml
