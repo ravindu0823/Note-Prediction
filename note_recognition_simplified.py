@@ -8,6 +8,7 @@ from utils import (
     classify_note_attempt_3,
 )
 
+
 def main(file, lab_fn=None):
     song = AudioSegment.from_file(file)
     song = song.high_pass_filter(80, order=4)
@@ -20,13 +21,13 @@ def main(file, lab_fn=None):
     print("Predicted Notes")
     print(predicted_notes)
 
-    if lab_fn: # dump labels to file
+    if lab_fn:  # dump labels to file
         str_labels = [f'{st}\t{ed}\t{note_name}'
                       for st, ed, note_name in predicted_notes]
         with open(lab_fn, 'w') as f:
             for line in str_labels:
                 f.write("%s\n" % line)
-    
+
     # print(starts)
 
 
@@ -94,4 +95,5 @@ def predict_notes(song, starts):
 
 
 if __name__ == "__main__":
-    main("audio/A-Thousand-Years-Christina-Perri.mp3", lab_fn="lab-files/A-Thousand-Years-Christina-Perri.lab")
+    main("audio/Cant_Help_Falling_In_Love-trimmed.mp3",
+         lab_fn="lab-files/Cant_Help_Falling_In_Love-trimmed-notes.lab")
