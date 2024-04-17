@@ -6,7 +6,7 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    image: python-flask-image:local
+    image: ravindu0823/musify:1.1.2
     ports:
       - "5000:5000"
     networks:
