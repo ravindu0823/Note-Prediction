@@ -23,3 +23,5 @@ audio
 lab-files
 musicenv
 pretrained_models
+.env
+app.py
