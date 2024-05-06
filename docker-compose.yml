@@ -7,48 +7,13 @@ services:
       context: ./
       dockerfile: Dockerfile
     image: ravindu0823/musify:1.1.2
+    environment:
+      - PYTHON_ENV=PRODUCTION
+      - PORT=5000
     ports:
       - "5000:5000"
     networks:
       - mynetwork
-
-  # frontend-user:
-  #   container_name: user-container
-  #   build:
-  #     context: ./Client/User
-  #     dockerfile: Dockerfile
-  #   image: user-image:local
-  #   ports:
-  #     - "5000:80"
-  #   networks:
-  #     - mynetwork
-
-  # frontend-chat:
-  #   container_name: chat-container
-  #   build:
-  #     context: ./Client/Chat
-  #     dockerfile: Dockerfile
-  #   image: chat-image:local
-  #   ports:
-  #     - "8000:80"
-  #   networks:
-  #     - mynetwork
-
-  # backend:
-  #   container_name: server-container
-  #   build:
-  #     context: ./Server
-  #     dockerfile: Dockerfile
-  #   image: server-image:local
-  #   environment:
-  #     - ATLAS_URI=mongodb+srv://dhanu:dhanu751@full-stack-development.nipgpqd.mongodb.net/?retryWrites=true&w=majority
-  #     - DUMMY_ATLAS_URI=mongodb+srv://dhanu:dhanu751@linkedin.vmlw5fb.mongodb.net/?retryWrites=true&w=majority
-  #     - JWT_SECRET=fc6b436fb79612607f5032a7455cc73c1ad1ff0a4ca1fddf2a0d4fa746d5c8f3
-  #     - PORT=3000
-  #   ports:
-  #     - "3000:3000"
-  #   networks:
-  #     - mynetwork
 
 networks:
   mynetwork:
