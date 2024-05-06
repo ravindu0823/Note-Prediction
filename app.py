@@ -1,7 +1,14 @@
+import os
 from flask import Flask, request, jsonify
 from note_recognition_simplified import main
 import autochord as chord
 from scrape import getNews
+from gevent.pywsgi import WSGIServer
+from dotenv import load_dotenv
+
+load_dotenv()
+ENV = os.getenv('PYTHON_ENV')
+PORT = os.getenv('PORT')
 
 app = Flask(__name__)
 
@@ -26,9 +33,9 @@ def analyzeNotes():
         start, end, note = line.split()
         data.append({"start": start, "end": end, "note": note})
 
-
     # Return the data as JSON
     return jsonify(notes=data)
+
 
 @app.route("/analyzeChords", methods=["POST"])
 def analyzeChords():
@@ -51,9 +58,9 @@ def analyzeChords():
         start, end, note = line.split()
         data.append({"start": start, "end": end, "note": note})
 
-
     # Return the data as JSON
     return jsonify(chords=data)
+
 
 @app.route("/analyzeBoth", methods=["POST"])
 def analyzeBoth():
@@ -77,7 +84,6 @@ def analyzeBoth():
         start, end, note = line.split()
         chordData.append({"start": start, "end": end, "note": note})
 
-    
     with open("labuploads/tempNote.lab", "r") as f:
         labNotes = f.read()
 
@@ -87,9 +93,9 @@ def analyzeBoth():
         start, end, note = line.split()
         notesData.append({"start": start, "end": end, "note": note})
 
-
     # Return the data as JSON
     return jsonify(chords=chordData, notes=notesData), 200
+
 
 @app.route("/getScrapeNews", methods=["GET"])
 def getScrapeNews():
@@ -101,4 +107,14 @@ def getScrapeNews():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    print("ENV", ENV)
+
+    if not os.path.exists("uploads"):
+        os.makedirs("uploads")
+    
+    if not os.path.exists("labuploads"):
+        os.makedirs("labuploads")
+    
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=True)
+        
