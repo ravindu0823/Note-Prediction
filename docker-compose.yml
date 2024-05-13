@@ -6,7 +6,7 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    image: ravindu0823/musify:1.1.2
+    image: ravindu0823/musify:1.1.5
     environment:
       - PYTHON_ENV=PRODUCTION
       - PORT=5000
