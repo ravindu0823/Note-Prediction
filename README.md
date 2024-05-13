@@ -1,4 +1,4 @@
-# Musify - Note Prediction Application - Model
+# MUSIFY - Note Prediction Application - Model
 
 ## Computing Individual Project
 
@@ -19,12 +19,24 @@ The application requires Python 3.8 to run. It also requires the following libra
 - [Pandas](https://pandas.pydata.org/ "Pandas")
 - [PyAudio](https://pypi.org/project/PyAudio/ "PyAudio")
 
-### Installation
+<h2>🛠️ Installation Steps:</h2>
 
-To install the application, you can clone this repository using the following command:
+<p>1. Clone the Repository</p>
 
 ```bash
 git clone https://github.com/ravindu0823/Note-Prediction
+```
+
+<p>2. Navigate to the server directory</p>
+
+```
+cd Note-Prediction/
+```
+
+<p>3. Install the Dependencies</p>
+
+```
+pip install -r requirements.txt
 ```
 
 ### Usage
@@ -32,5 +44,25 @@ git clone https://github.com/ravindu0823/Note-Prediction
 To run the application, you can use the following command:
 
 ```bash
-python main.py
+python app.py
+```
+
+## When Your PC has Docker Installed
+
+<p>1. Clone the Repository</p>
+
+```
+git clone https://github.com/ravindu0823/Note-Prediction
+```
+
+<p>2. Get inside the Project</p>
+
+```
+cd Note-Prediction/
+```
+
+<p>2. Start the Docker Containers</p>
+
+```
+docker compose up -d
 ```
