@@ -8,7 +8,7 @@ matplotlib==3.7.2
 matplotlib-inline==0.1.6
 numba==0.58.1
 pydub==0.25.1
-scikit-learn==1.3.2
+scikit-learn==1.5.0
 scipy==1.11.2
 soundfile==0.12.1
 Levenshtein==0.21.1
